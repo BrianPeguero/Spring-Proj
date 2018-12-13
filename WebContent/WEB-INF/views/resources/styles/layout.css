@@ -1,0 +1,100 @@
+html {
+    height: 100%;
+    width: 100%;
+
+    padding:0px;
+    margin:0px;
+    
+    background-color: whitesmoke;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+
+    padding: 0px;
+    margin: 0px;
+
+    background-color: paleturquoise;
+}
+
+.nav {
+    height: 15%;
+
+    padding:1%;
+    margin:0px;
+
+    background-color: whitesmoke;
+    box-shadow: 5px 5px 15px grey;
+
+}
+
+.nav-bar{
+    width: 100%;
+    height:auto;
+
+    display: inline-block;
+
+    padding:0px;
+    margin:0px;
+}
+
+.nav-bar-logo {
+    display: block;
+
+    padding:0px;
+    margin:0px;
+
+    float:left;
+}
+
+.nav-bar-pages {
+    width: 20%;
+
+    float:right;
+}
+
+.page {
+    display: inline-block;
+
+    padding:1%;
+
+    margin-left:1%;
+    margin-right:1%;
+    margin-top:10%;
+    margin-bottom:0px;
+
+    width:auto;
+    height:auto;
+
+    text-decoration: none;
+
+}
+
+.main {
+    height:50%;
+    width: 75%;
+
+    padding:0px;
+    
+    margin: 0px auto;
+
+    background-color: whitesmoke;
+
+    box-shadow: 5px 5px 15px grey;
+}
+
+.container {
+    text-align: center;
+
+    width:100%;
+    height:auto;
+    
+    padding: 0px;
+
+    margin-top: 0px;
+}
+
+.form-field {
+    display: inline-block;
+}
