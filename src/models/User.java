@@ -9,13 +9,13 @@ public class User {
 	
 	private int vehicalType;
 	
-	private String Location;
+	private String location;
 	
-	public User(String email, String password, int vehicalType) {
+	public User(String email, String password, int vehicalType, String location) {
 		this.email = email;
 		this.password = password;
 		this.vehicalType = vehicalType;
-		this.Location = null;
+		this.location = location;
 	}
 
 	public String getEmail() {
@@ -31,7 +31,7 @@ public class User {
 	}
 
 	public String getLocation() {
-		return Location;
+		return location;
 	}
 
 	public void setEmail(String email) {
@@ -47,13 +47,13 @@ public class User {
 	}
 
 	public void setLocation(String location) {
-		Location = location;
+		this.location = location;
 	}
 
 	@Override
 	public String toString() {
 		return "UserSigningUp [email=" + email + ", password=" + password + ", vehicalType=" + vehicalType
-				+ ", Location=" + Location + "]";
+				+ ", Location=" + location + "]";
 	}
 
 }

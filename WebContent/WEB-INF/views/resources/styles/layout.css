@@ -1,6 +1,6 @@
 html {
-    height: 100%;
-    width: 100%;
+    min-height: 100%;
+    min-width: 100%;
 
     padding:0px;
     margin:0px;
@@ -9,11 +9,12 @@ html {
 }
 
 body {
-    height: 100%;
-    width: 100%;
+    min-height: 100%;
+    min-width: 100%;
 
-    padding: 0px;
-    margin: 0px;
+    padding-bottom:5%;
+
+    margin:0px;
 
     background-color: paleturquoise;
 }
@@ -72,12 +73,14 @@ body {
 }
 
 .main {
-    height:50%;
+    min-height: 100%;
     width: 75%;
 
     padding:0px;
     
     margin: 0px auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
 
     background-color: whitesmoke;
 
@@ -85,16 +88,20 @@ body {
 }
 
 .container {
-    text-align: center;
 
     width:100%;
     height:auto;
-    
-    padding: 0px;
 
-    margin-top: 0px;
+    display: block;
+    
+    padding: 5%;
 }
 
 .form-field {
-    display: inline-block;
+    display: block;
+    margin: 1%;
+}
+
+.error {
+    color: red;
 }

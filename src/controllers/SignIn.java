@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -9,8 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import models.NoParkingZone;
 import models.User;
 import models.UserSigningIn;
+import services.NoParkingZoneImp;
 import services.UserImp;
 
 @Controller
@@ -27,16 +31,26 @@ public class SignIn {
 	}
 	
 	@PostMapping(value="/signIn")
-	public ModelAndView singingIn(@Valid @ModelAttribute("userSignIn") UserSigningIn user, BindingResult br) {
+	public ModelAndView singingIn(@Valid @ModelAttribute("userSignIn") UserSigningIn user, 
+																	   BindingResult br) {
+		
 		ModelAndView mav = null;
 		
 		if(br.hasErrors()) {
 			mav = new ModelAndView("pages/signIn");
 		} else {
-			if(new UserImp().isValidUser(user)) {
-				User dbUser = new UserImp().getUserByEmail(user.getEmail());
+			User dbUser = new UserImp().getUserByEmail(user.getEmail());
+			if(dbUser.getEmail().equals(user.getEmail()) && dbUser.getPassword().equals(user.getPassword())) {
+				List<NoParkingZone> noParkingZoneList = new NoParkingZoneImp().getAllNoParkingZone();
+				List<String> listOfAllUserCars = new UserImp().getAllCarLocationsInArea();
+				
 				mav = new ModelAndView("pages/userPage");
 				mav.addObject("user", dbUser);
+				mav.addObject("noParkingZoneList", noParkingZoneList);
+				mav.addObject("listOfAllUserCars", listOfAllUserCars);
+				
+			} else {
+				mav = new ModelAndView("pages/signIn");
 			}
 		}
 		

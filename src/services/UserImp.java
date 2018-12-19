@@ -1,6 +1,8 @@
 package services;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import dao.DAO;
 import enums.UserEnum;
@@ -23,7 +25,7 @@ public class UserImp extends DAO implements UserInt {
 			rs = ps.executeQuery();
 			
 			if(rs.next()) {
-				user = new User(rs.getString(1), rs.getString(2), rs.getInt(3));
+				user = new User(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -46,7 +48,6 @@ public class UserImp extends DAO implements UserInt {
 			ps.executeQuery();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			dispose();
@@ -57,14 +58,14 @@ public class UserImp extends DAO implements UserInt {
 	@Override
 	public boolean isValidUser(UserSigningIn userSigningIn) {
 		boolean isValid = false;
-		User user = null;
+		User dbUser = null;
 		connect();
 		
 		try {
 			ps = conn.prepareStatement(UserEnum.GET_USER_BY_EMAIL.getQuery());
 			
 			if(rs.next()) {
-				user = new User(rs.getString(1), rs.getString(2), rs.getInt(3));
+				dbUser = new User(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -72,7 +73,7 @@ public class UserImp extends DAO implements UserInt {
 			dispose();
 		}
 		
-		if (user.getEmail().equals(userSigningIn.getEmail()) && user.getPassword().equals(userSigningIn.getPassword())) {
+		if (dbUser.getEmail().equals(userSigningIn.getEmail()) && dbUser.getPassword().equals(userSigningIn.getPassword())) {
 			isValid = true;
 		}
 		
@@ -127,6 +128,28 @@ public class UserImp extends DAO implements UserInt {
 		}
 		
 		return newLoc;
+	}
+	
+	public List<String> getAllCarLocationsInArea(){
+		List<String> allCarLocations = new ArrayList<String>();
+		
+		connect();
+		
+		try {
+			ps = conn.prepareStatement(UserEnum.GET_LOCATION_OF_ALL_CARS.getQuery());
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				allCarLocations.add(rs.getString(1));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dispose();
+		}
+		
+		return allCarLocations;
 	}
 
 }

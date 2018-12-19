@@ -1,19 +1,22 @@
 package controllers;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import models.NoParkingZone;
+import models.User;
 import models.UserSigningUp;
+import services.NoParkingZoneImp;
 import services.UserImp;
 
 @Controller
@@ -62,7 +65,15 @@ public class SingUp {
 		} else {
 			mav = new ModelAndView("pages/userPage");
 			new UserImp().newUser(userSigningUp.getEmail(), userSigningUp.getPassword(), userSigningUp.getVehicalType());
-			mav.addObject("user", userSigningUp);
+			User dbUser = new UserImp().getUserByEmail(userSigningUp.getEmail());
+			List<NoParkingZone> noParkingZoneList = new NoParkingZoneImp().getAllNoParkingZone();
+			List<String> listOfAllUserCars = new UserImp().getAllCarLocationsInArea();
+			
+			mav.addObject("listOfAllUserCars", listOfAllUserCars);
+			mav.addObject("user", dbUser);
+			mav.addObject("noParkingZoneList", noParkingZoneList);
+			
+			
 		}
 		
 		return mav;
