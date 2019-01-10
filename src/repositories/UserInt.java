@@ -51,4 +51,6 @@ public interface UserInt {
 	 * @return
 	 */
 	public String updateSpot(String Location);
+
+	void updateSpot(String location, String email);
 }

@@ -25,7 +25,7 @@ public class UserImp extends DAO implements UserInt {
 			rs = ps.executeQuery();
 			
 			if(rs.next()) {
-				user = new User(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4));
+				user = new User(rs.getString(1), rs.getString(2), Integer.valueOf((rs.getInt(3))), rs.getString(4));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -36,7 +36,7 @@ public class UserImp extends DAO implements UserInt {
 		return user;
 	}
 	
-	public void newUser(String email, String password, int vehicalType) {
+	public void newUser(String email, String password, Integer vehicalType) {
 		connect();
 		
 		try {
@@ -44,6 +44,8 @@ public class UserImp extends DAO implements UserInt {
 			ps.setString(1, email);
 			ps.setString(2, password);
 			ps.setInt(3, vehicalType);
+			
+			
 			
 			ps.executeQuery();
 			
@@ -65,7 +67,7 @@ public class UserImp extends DAO implements UserInt {
 			ps = conn.prepareStatement(UserEnum.GET_USER_BY_EMAIL.getQuery());
 			
 			if(rs.next()) {
-				dbUser = new User(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4));
+				dbUser = new User(rs.getString(1), rs.getString(2), Integer.valueOf(rs.getInt(3)), rs.getString(4));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -108,26 +110,20 @@ public class UserImp extends DAO implements UserInt {
 	}
 
 	@Override
-	public String updateSpot(String location) {
-		String newLoc = "";
+	public void updateSpot(String location, String email) {
 		connect();
 		
 		try {
 			ps = conn.prepareStatement(UserEnum.UPDATE_LOC.getQuery());
 			ps.setString(1, location);
+			ps.setString(2, email);
 			
-			rs = ps.executeQuery();
-			
-			if(rs.next()) {
-				newLoc = rs.getString(1);
-			}
+			ps.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			dispose();
 		}
-		
-		return newLoc;
 	}
 	
 	public List<String> getAllCarLocationsInArea(){
@@ -150,6 +146,12 @@ public class UserImp extends DAO implements UserInt {
 		}
 		
 		return allCarLocations;
+	}
+
+	@Override
+	public String updateSpot(String Location) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

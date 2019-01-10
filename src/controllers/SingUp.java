@@ -4,6 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -32,11 +34,11 @@ public class SingUp {
 		
 		Map<Integer, String> vehicalItems = new LinkedHashMap<Integer, String>();
 		vehicalItems.put(null, "--Select One--");
-		vehicalItems.put(1, "2018 Honda Civic");
-		vehicalItems.put(2, "2018 Toyota Camry");
-		vehicalItems.put(3, "2018 Toyota Corolla");
-		vehicalItems.put(4, "2018 Honda Accord");
-		vehicalItems.put(5, "2018 Honda CR-V");
+		vehicalItems.put(Integer.valueOf(1), "2018 Honda Civic");
+		vehicalItems.put(Integer.valueOf(2), "2018 Toyota Camry");
+		vehicalItems.put(Integer.valueOf(3), "2018 Toyota Corolla");
+		vehicalItems.put(Integer.valueOf(4), "2018 Honda Accord");
+		vehicalItems.put(Integer.valueOf(5), "2018 Honda CR-V");
 		
 		ModelAndView mav = new ModelAndView("pages/signUp");
 		
@@ -46,15 +48,17 @@ public class SingUp {
 	
 	@PostMapping(value="/signUp")
 	public ModelAndView signingUp(@Valid @ModelAttribute("userSigningUp") UserSigningUp userSigningUp,
-																		  BindingResult br) {
+																		  BindingResult br,
+																		  HttpServletRequest request,
+																		  HttpServletResponse response) {
 		
 		Map<Integer, String> vehicalItems = new LinkedHashMap<Integer, String>();
 		vehicalItems.put(null, "--Select One--");
-		vehicalItems.put(1, "2018 Honda Civic");
-		vehicalItems.put(2, "2018 Toyota Camry");
-		vehicalItems.put(3, "2018 Toyota Corolla");
-		vehicalItems.put(4, "2018 Honda Accord");
-		vehicalItems.put(5, "2018 Honda CR-V");
+		vehicalItems.put(Integer.valueOf(1), "2018 Honda Civic");
+		vehicalItems.put(Integer.valueOf(2), "2018 Toyota Camry");
+		vehicalItems.put(Integer.valueOf(3), "2018 Toyota Corolla");
+		vehicalItems.put(Integer.valueOf(4), "2018 Honda Accord");
+		vehicalItems.put(Integer.valueOf(5), "2018 Honda CR-V");
 		
 		ModelAndView mav = null;
 		
@@ -65,12 +69,16 @@ public class SingUp {
 		} else {
 			mav = new ModelAndView("pages/userPage");
 			new UserImp().newUser(userSigningUp.getEmail(), userSigningUp.getPassword(), userSigningUp.getVehicalType());
+			
 			User dbUser = new UserImp().getUserByEmail(userSigningUp.getEmail());
+			
+			request.getSession().setAttribute("sessionUser", dbUser);
+			
 			List<NoParkingZone> noParkingZoneList = new NoParkingZoneImp().getAllNoParkingZone();
 			List<String> listOfAllUserCars = new UserImp().getAllCarLocationsInArea();
 			
 			mav.addObject("listOfAllUserCars", listOfAllUserCars);
-			mav.addObject("user", dbUser);
+			mav.addObject("sessionUser", dbUser);
 			mav.addObject("noParkingZoneList", noParkingZoneList);
 			
 			

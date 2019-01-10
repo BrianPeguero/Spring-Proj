@@ -23,8 +23,6 @@ public class NoParkingZoneImp extends DAO {
 				allNoParkingZones.add(new NoParkingZone(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5)));
 			}
 			
-			System.out.println(allNoParkingZones);
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

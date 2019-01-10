@@ -2,6 +2,8 @@ package controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -32,8 +34,9 @@ public class SignIn {
 	
 	@PostMapping(value="/signIn")
 	public ModelAndView singingIn(@Valid @ModelAttribute("userSignIn") UserSigningIn user, 
-																	   BindingResult br) {
-		
+																	   BindingResult br,
+																	   HttpServletRequest request,
+																	   HttpServletResponse response) {
 		ModelAndView mav = null;
 		
 		if(br.hasErrors()) {
@@ -41,13 +44,16 @@ public class SignIn {
 		} else {
 			User dbUser = new UserImp().getUserByEmail(user.getEmail());
 			if(dbUser.getEmail().equals(user.getEmail()) && dbUser.getPassword().equals(user.getPassword())) {
+				mav = new ModelAndView("pages/userPage");
+				
+				request.getSession().setAttribute("sessionUser", dbUser);
+				
 				List<NoParkingZone> noParkingZoneList = new NoParkingZoneImp().getAllNoParkingZone();
 				List<String> listOfAllUserCars = new UserImp().getAllCarLocationsInArea();
 				
-				mav = new ModelAndView("pages/userPage");
-				mav.addObject("user", dbUser);
 				mav.addObject("noParkingZoneList", noParkingZoneList);
 				mav.addObject("listOfAllUserCars", listOfAllUserCars);
+				mav.addObject("sessionUser", dbUser);
 				
 			} else {
 				mav = new ModelAndView("pages/signIn");
@@ -56,4 +62,5 @@ public class SignIn {
 		
 		return mav;
 	}
+	
 }

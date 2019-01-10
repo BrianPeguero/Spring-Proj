@@ -7,11 +7,11 @@ public class User {
 	
 	private String password;
 	
-	private int vehicalType;
+	private Integer vehicalType;
 	
 	private String location;
 	
-	public User(String email, String password, int vehicalType, String location) {
+	public User(String email, String password, Integer vehicalType, String location) {
 		this.email = email;
 		this.password = password;
 		this.vehicalType = vehicalType;
@@ -26,7 +26,7 @@ public class User {
 		return password;
 	}
 
-	public int getVehicalType() {
+	public Integer getVehicalType() {
 		return vehicalType;
 	}
 
@@ -42,7 +42,7 @@ public class User {
 		this.password = password;
 	}
 
-	public void setVehicalType(int vehicalType) {
+	public void setVehicalType(Integer vehicalType) {
 		this.vehicalType = vehicalType;
 	}
 
